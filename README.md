@@ -55,6 +55,7 @@ Tengo implementados cinco endpoints, los cuales son los siguientes:
   
 * Por el momento, existe de manera predeterminada un restaurante y una sede asociada a dicho restaurante.
 
+* Por el momento solo existe en base de datos un restaurante (ID: 744844fe-9e5e-41aa-9578-f3f7602a6511) y una sede de ese restaurante (ID: f18b1cc5-d076-4421-a3d0-84f824fe5a2f)
 
 ### Cómo manejarías un aumento significativo en las consultas de horarios y creación de reservaciones?
 
