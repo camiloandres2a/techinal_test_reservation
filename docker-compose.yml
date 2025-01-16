@@ -1,21 +1,33 @@
 version: '3.8'
 
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: mysql_container
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: demo_db
-      MYSQL_USER: demo_user
-      MYSQL_PASSWORD: demo_password
+  app:
+    build:
+      context: .
+      args:
+        - GRADLE_USER_HOME=/home/gradle/.gradle
     ports:
-      - "3307:3306"
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3307/myreservationreversi
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=user
+    depends_on:
+      - db
     volumes:
-      - mysql_data:/var/lib/mysql
-      - ./db-scripts:/docker-entrypoint-initdb.d
+      - gradle-cache:/home/gradle/.gradle
+
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=myreservationreversi
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=user
+      - MYSQL_ROOT_PASSWORD=rootpassword
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
-  mysql_data:
-    driver: local
+  mysql-data:
+  gradle-cache:
