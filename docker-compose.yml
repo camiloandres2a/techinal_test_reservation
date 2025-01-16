@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   app:
     build:
@@ -9,8 +7,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3307/myreservationreversi
-      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/myreservationreversi
+      - SPRING_DATASOURCE_USERNAME=userRiservi
       - SPRING_DATASOURCE_PASSWORD=user
     depends_on:
       - db
@@ -21,12 +19,11 @@ services:
     image: mysql:8.0
     environment:
       - MYSQL_DATABASE=myreservationreversi
-      - MYSQL_USER=root
+      - MYSQL_USER=userRiservi
       - MYSQL_PASSWORD=user
       - MYSQL_ROOT_PASSWORD=rootpassword
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
   mysql-data:

@@ -1,10 +1,23 @@
-    plugins {
+buildscript {
+    dependencies {
+        classpath 'org.flywaydb:flyway-mysql:9.8.3'
+        classpath 'org.flywaydb:flyway-core:9.8.3'
+    }
+}
+
+plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.1'
     id 'io.spring.dependency-management' version '1.1.7'
     id("org.hibernate.orm") version "6.6.4.Final"
-
+    id "org.flywaydb.flyway" version "9.8.3"
     }
+
+flyway {
+    url = 'jdbc:mysql://db:3306/myreservationreversi'
+    user = 'userRiservi'
+    password = 'user'
+}
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
@@ -20,19 +33,25 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.flywaydb:flyway-core:9.8.3'
+    implementation 'org.flywaydb:flyway-mysql:9.8.3'
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation group: 'org.hibernate', name: 'hibernate-core', version: '6.6.4.Final', ext: 'pom'
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
-    compileOnly 'org.projectlombok:lombok:1.18.36'
-    annotationProcessor 'org.projectlombok:lombok:1.18.36'
-
-    testCompileOnly 'org.projectlombok:lombok:1.18.36'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {

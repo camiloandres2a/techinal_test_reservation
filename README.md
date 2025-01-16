@@ -13,6 +13,13 @@ Al mismo tiempo que se levanta la base de datos, se levanta la aplicación autom
   1.  docker-compose up -d
   2. docker-compose logs app
 
+### Como mirar la base de datos creada ?
+* Comandos:
+  * docker exec -it demo-db-1 bash
+  * mysql -u root -p
+  * password = (rootpassword)
+  * use myreservationreversi;
+
 ### Base de Datos
 
 * [Diagrama de Entidad-Relacion](https://lucid.app/lucidchart/bbe20ef9-2a28-4597-9d03-6c64aaaa6010/edit?viewport_loc=1145%2C54%2C2249%2C1056%2C0_0&invitationId=inv_d15327f6-1118-45c7-9483-ade9bd8b8331)
