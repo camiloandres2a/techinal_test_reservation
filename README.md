@@ -32,7 +32,7 @@ Este diseño sencillo y funcional permite a los restaurantes optimizar sus opera
 
 
 ### ENDPOINT
-[ADJUNTO COLLECTION DE ENDPOINTS EN POSTMAN](..%2F..%2F..%2FDocuments%2FReservation%20-%20Riservi.postman_collection.json)
+[ADJUNTO COLLECTION DE ENDPOINTS EN POSTMAN](https://drive.google.com/file/d/1lwx3m19aM591Qwg5LQ_kXR73nx6hwTHT/view?usp=drive_link)
 
 Tengo implementados cinco endpoints, los cuales son los siguientes:
 
@@ -55,3 +55,19 @@ Tengo implementados cinco endpoints, los cuales son los siguientes:
   
 * Por el momento, existe de manera predeterminada un restaurante y una sede asociada a dicho restaurante.
 
+
+### Cómo manejarías un aumento significativo en las consultas de horarios y creación de reservaciones?
+
+Primero, evaluaría las consultas SQL utilizando una herramienta especializada para identificar posibles mejoras. Si es viable, optimizaría las consultas añadiendo índices, mejorando la estructura de los JOIN, y realizando ajustes que aumenten la eficiencia. En caso de que las consultas sigan creciendo significativamente, implementaría una estrategia de caché con Redis.
+
+Desde la aplicación, verificaría en la caché si existen cambios recientes en la base de datos que no estén reflejados. En caso de ser necesario, solo traería los registros nuevos o actualizados desde la base de datos para mantener la información sincronizada. Este proceso lo realizaría preferiblemente durante horas de menor actividad, como en la noche, para minimizar el impacto en el rendimiento de las operaciones de reservación.
+
+Para la creación de reservas, podría manejarse de forma asincrónica utilizando un broker de mensajería como Kafka. En este esquema, un publisher generaría un evento de creación que se enviaría a un topic en Kafka. A partir de ahí, un consumer procesaría los eventos desde el topic y gestionaría la inserción de datos en la base de datos.
+
+Este enfoque tiene la ventaja de desacoplar la aplicación del tiempo de respuesta de la base de datos, lo que resulta especialmente útil en escenarios de alta concurrencia, como cuando hay 1000 reservaciones simultáneas. En lugar de esperar directamente la respuesta de la base de datos, las reservas se mantienen temporalmente en Kafka, donde se procesan de forma controlada y ordenada a través del consumer antes de almacenarse en la base de datos.
+
+### Qué patrones, tecnologías o arquitecturas utilizarías para garantizar disponibilidad y rendimiento ? 
+
+* Patrones: Builder, Chain of responsability
+* Tecnologias: Docker, Java, Flyway, Kafka, Redis en Cache
+* Arquitectura: Arquitectura hexagonal o puertos y adaptadores
