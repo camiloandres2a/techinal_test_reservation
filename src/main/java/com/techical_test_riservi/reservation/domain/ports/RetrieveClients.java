@@ -6,6 +6,6 @@ import java.util.Optional;
 
 public interface RetrieveClients {
     Boolean isClientExistByCellPhone(String cellPhone);
-    void createClient(String name, String cellPhoneNumber);
-    Client getClientByCellPhone(String cellPhone);
+    Client createClient(Client client);
+    Optional<Client> getClientByCellPhone(String cellPhone);
 }

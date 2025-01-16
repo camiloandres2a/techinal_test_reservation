@@ -1,41 +1,58 @@
 package com.techical_test_riservi.reservation.application.useCase;
 
-import com.techical_test_riservi.reservation.application.useCase.validators.Reservations;
+import com.techical_test_riservi.reservation.application.useCase.validators.*;
 import com.techical_test_riservi.reservation.domain.Reservation;
 import com.techical_test_riservi.reservation.domain.exceptions.ReservationNotFound;
 import com.techical_test_riservi.reservation.domain.ports.RetrieveReservations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class UpdateReservation {
 
     private RetrieveReservations retrieveReservations;
-    private Reservations reservationsValidator;
+    private BranchValidators branchValidators;
+    private DayAvailableValidators dayAvailableValidators;
+    private HourAvailableValidators hourAvailableValidators;
+    private PeopleQuantityValidators peopleQuantityValidators;
+    private RestaurantValidations restaurantValidations;
+
+    @Autowired
+    public UpdateReservation(RetrieveReservations retrieveReservations, BranchValidators branchValidators, DayAvailableValidators dayAvailableValidators, HourAvailableValidators hourAvailableValidators, PeopleQuantityValidators peopleQuantityValidators, RestaurantValidations restaurantValidations) {
+        this.retrieveReservations = retrieveReservations;
+        this.branchValidators = branchValidators;
+        this.dayAvailableValidators = dayAvailableValidators;
+        this.hourAvailableValidators = hourAvailableValidators;
+        this.peopleQuantityValidators = peopleQuantityValidators;
+        this.restaurantValidations = restaurantValidations;
+    }
 
     public void execute(UUID reservationId, Reservation reservation) {
-        String clientName = reservation.getClient().getName();
-        String clientCellPhone = reservation.getClient().getCellPhoneNumber();
         UUID restaurantId = reservation.getRestaurant().getId();
         UUID branchId = reservation.getRestaurant().getBranches().get(0).getId();
-        LocalDate reservationDate = reservation.getDate();
+        DayOfWeek reservationDate = reservation.getDate();
         LocalTime reservationTime = reservation.getTime();
-        int peopleQuantity = reservation.getQuantityPeople();
+        int peopleQuantity = reservation.getNumberPeople();
 
-        if(retrieveReservations.getReservationById(reservationId) == null){
+        if(retrieveReservations.getReservationById(reservationId).isEmpty()){
             throw new ReservationNotFound("Reservation id not found: " + reservationId);
         }
 
-        reservationsValidator.validateClient(clientName, clientCellPhone);
-        reservationsValidator.validateRestaurant(restaurantId);
-        reservationsValidator.validateBranch(branchId);
-        reservationsValidator.validateDayAvailability(branchId, reservationDate);
-        reservationsValidator.validateHourAvailability(branchId, reservationDate, reservationTime);
-        reservationsValidator.validatePeopleQuantity(branchId, reservationDate, reservationTime, peopleQuantity);
+        branchValidators.execute(branchId);
+        restaurantValidations.execute(restaurantId);
 
-        retrieveReservations.updateReservationById(reservationId, reservation);
+        dayAvailableValidators.execute(branchId, reservationDate);
+        hourAvailableValidators.execute(branchId, reservationDate, reservationTime);
+
+        peopleQuantityValidators.execute(branchId, reservationDate, reservationTime, peopleQuantity);
+
+        Optional<Reservation> getExistingReservation = retrieveReservations.getReservationById(reservationId);
+
+        retrieveReservations.updateReservationById(reservationId, reservation, getExistingReservation);
     }
 }

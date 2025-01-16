@@ -19,9 +19,9 @@ public class GetReservationById {
         this.retrieveReservations = retrieveReservations;
     }
 
-    public Reservation execute(UUID id){
+    public Optional<Reservation> execute(UUID id){
         var reservationById = retrieveReservations.getReservationById(id);
-        if(reservationById == null){
+        if(reservationById.isEmpty()){
             throw new ReservationNotFound("Reservation not found");
         }
         return reservationById;

@@ -1,7 +1,6 @@
 package com.techical_test_riservi.reservation.infrastructure.api;
 
 import com.techical_test_riservi.reservation.domain.Branch;
-import com.techical_test_riservi.reservation.domain.Client;
 import com.techical_test_riservi.reservation.domain.Reservation;
 import com.techical_test_riservi.reservation.domain.Restaurant;
 import lombok.Getter;
@@ -14,9 +13,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class ReservationRequestDto {
-    private String clientName;
-    private String clientCellphoneNumber;
+public class ReservationUpdateRequestDto {
     private UUID restaurantId;
     private UUID branchId;
     private DayOfWeek date;
@@ -25,7 +22,6 @@ public class ReservationRequestDto {
 
     public Reservation toDomain(){
         return Reservation.builder()
-                .client(this.toDomainClient())
                 .restaurant(this.toDomainRestaurant())
                 .date(this.date)
                 .time(this.time)
@@ -33,12 +29,6 @@ public class ReservationRequestDto {
                 .build();
     }
 
-    private Client toDomainClient(){
-        return Client.builder()
-                .name(this.clientName)
-                .cellPhoneNumber(this.clientCellphoneNumber)
-                .build();
-    }
 
     private Restaurant toDomainRestaurant(){
         return Restaurant.builder()

@@ -1,14 +1,14 @@
 package com.techical_test_riservi.reservation.infrastructure.api;
 
 import com.techical_test_riservi.reservation.application.useCase.*;
-import com.techical_test_riservi.reservation.domain.Client;
 import com.techical_test_riservi.reservation.domain.Reservation;
-import com.techical_test_riservi.reservation.domain.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.time.DayOfWeek;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -17,61 +17,53 @@ public class ReservationController {
 
     private final GetReservationByDay getReservationByDay;
     private final GetReservationById getReservationById;
-    private final GetReservationsByCellPhoneNumberClient getReservationsByCellPhoneNumberClient;
     private final CreateReservation createReservation;
     private final UpdateReservation updateReservation;
     private final DeleteReservationById deleteReservationById;
 
     @Autowired
-    public ReservationController(GetReservationByDay getReservationByDay, GetReservationById getReservationById, GetReservationsByCellPhoneNumberClient getReservationsByCellPhoneNumberClient, CreateReservation createReservation, UpdateReservation updateReservation, DeleteReservationById deleteReservationById) {
+    public ReservationController(GetReservationByDay getReservationByDay, GetReservationById getReservationById, CreateReservation createReservation, UpdateReservation updateReservation, DeleteReservationById deleteReservationById) {
         this.getReservationByDay = getReservationByDay;
         this.getReservationById = getReservationById;
-        this.getReservationsByCellPhoneNumberClient = getReservationsByCellPhoneNumberClient;
         this.createReservation = createReservation;
         this.updateReservation = updateReservation;
         this.deleteReservationById = deleteReservationById;
     }
 
     @PostMapping
-    public Reservation createReservation(@RequestBody ReservationRequestDto dto) {
-        return createReservation.execute(dto.toDomain());
+    public ResponseEntity<Reservation> createReservation(@RequestBody ReservationRequestDto dto) throws InterruptedException {
+        return ResponseEntity.ok(createReservation.execute(dto.toDomain()));
     }
 
-    @GetMapping("/{day_reservation}/restaurants/{id_restaurant}/branches/{branch_id}")
-    public List<Reservation> getReservationsByDay(
-            @PathVariable("day_reservation") LocalDate day,
-            @PathVariable("id_restaurant") UUID restaurantId,
-            @PathVariable("branch_id") UUID branchId
+    @GetMapping("/{day_reservation}/branches/{branch_id}")
+    public ResponseEntity<List<Reservation>> getReservationsByDay(
+            @PathVariable("day_reservation") DayOfWeek day,
+            @PathVariable("branch_id") String branchId
     ) {
-        return getReservationByDay.execute(day, restaurantId, branchId);
+        return ResponseEntity.ok(getReservationByDay.execute(day, branchId));
     }
 
     @GetMapping("/{id_reservation}")
-    public Reservation getReservationsById(
+    public ResponseEntity<Optional<Reservation>> getReservationsById(
             @PathVariable("id_reservation") UUID id
     ) {
-        return getReservationById.execute(id);
-    }
-
-    @GetMapping("/clients/phones/{phone}")
-    public List<Reservation> getReservationsByCellPhoneNumber(
-            @PathVariable("phone") String cellPhoneNumber
-    ) {
-        return getReservationsByCellPhoneNumberClient.execute(cellPhoneNumber);
+        return ResponseEntity.ok(getReservationById.execute(id));
     }
 
     @PutMapping("{id_reservation}")
-    public void updateReservation(
+    public ResponseEntity<Void> updateReservation(
             @PathVariable("id_reservation") UUID idReservation,
-            @RequestBody ReservationRequestDto dto
+            @RequestBody ReservationUpdateRequestDto dto
     ) {
         updateReservation.execute(idReservation, dto.toDomain());
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("{id_reservation}")
-    public void deleteReservation(
+    public ResponseEntity<Void> deleteReservation(
             @PathVariable("id_reservation") UUID idReservation
-    ){
+    ) {
         deleteReservationById.execute(idReservation);
+        return ResponseEntity.noContent().build();
     }
 }
