@@ -2,7 +2,7 @@
 
 ### Como correr la aplicacion ?
 
-* Tener descargado docker
+* Tener descargado docker ( 27.4.0 v )
 * Tener descargado MySQL
 
 ### Como levantar docker ?
