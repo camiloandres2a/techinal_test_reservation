@@ -23,12 +23,6 @@ public class ClientEntity {
     public ClientEntity() {
     }
 
-    public ClientEntity(String id, String name, String cellphoneNumber) {
-        this.id = id;
-        this.name = name;
-        this.cellphoneNumber = cellphoneNumber;
-    }
-
     public String getId() {
         return id;
     }

@@ -30,23 +30,4 @@ public class ReservationDTO {
         this.hourTaken = hourTaken;
         this.numberPeople = numberPeople;
     }
-
-    public Reservation toEntity(){
-        return Reservation.builder()
-                .id(UUID.fromString(this.reservationId))
-                .client(Client.builder()
-                        .id(UUID.fromString(this.clientId))
-                        .build())
-                .restaurant(Restaurant.builder()
-                        .branches(Collections.singletonList(
-                                Branch.builder()
-                                        .id(UUID.fromString(this.branchId))
-                                        .build())
-                        )
-                        .build())
-                .date(DayOfWeek.valueOf(this.dateTaken))
-                .time(this.hourTaken)
-                .numberPeople(this.numberPeople)
-                .build();
-    }
 }

@@ -22,13 +22,6 @@ public class BranchEntity {
     public BranchEntity() {
     }
 
-    public BranchEntity(String id, Integer availableSeats, String address, RestaurantEntity restaurant) {
-        this.id = id;
-        this.availableSeats = availableSeats;
-        this.address = address;
-        this.restaurant = restaurant;
-    }
-
     public String getId() {
         return id;
     }

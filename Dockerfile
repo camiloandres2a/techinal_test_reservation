@@ -3,7 +3,7 @@ WORKDIR /app
 COPY . .
 USER root
 RUN gradle clean --no-daemon --stacktrace --info
-RUN gradle build --no-daemon --stacktrace --info -x test
+RUN gradle build --no-daemon --stacktrace --info
 RUN chown -R gradle:gradle /home/gradle/.gradle
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app

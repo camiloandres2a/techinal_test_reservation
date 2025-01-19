@@ -77,14 +77,4 @@ public class ScheduleEntity {
                 .endTime(this.endHour)
                 .build();
     }
-
-    public static ScheduleEntity toRecord(UUID idBranch, DayOfWeek date) {
-        ScheduleEntity entity = new ScheduleEntity();
-        BranchEntity branchEntity = new BranchEntity();
-        branchEntity.setId(String.valueOf(idBranch));
-        entity.setBranchEntity(branchEntity);
-        entity.setDate(date);
-
-        return entity;
-    }
 }

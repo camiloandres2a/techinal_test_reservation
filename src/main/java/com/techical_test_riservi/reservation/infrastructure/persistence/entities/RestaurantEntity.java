@@ -34,17 +34,4 @@ public class RestaurantEntity {
         this.name = name;
     }
 
-    public Restaurant toEntity() {
-        return Restaurant.builder()
-                .id(UUID.fromString(this.id))
-                .build();
-    }
-
-    public static RestaurantEntity from(UUID id) {
-        RestaurantEntity entity = new RestaurantEntity();
-        entity.setId(String.valueOf(id));
-
-        return entity;
-    }
-
 }

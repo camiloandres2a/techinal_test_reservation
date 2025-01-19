@@ -5,6 +5,9 @@ import com.techical_test_riservi.reservation.domain.Client;
 import com.techical_test_riservi.reservation.domain.Reservation;
 import com.techical_test_riservi.reservation.domain.Restaurant;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -13,6 +16,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "reservation")
+@Builder
+@AllArgsConstructor
 public class ReservationEntity {
 
     @Id
@@ -40,6 +45,10 @@ public class ReservationEntity {
     private LocalTime hourTaken;
     @Column(name = "number_people")
     private Integer numberPeople;
+
+    public ReservationEntity() {
+
+    }
 
     public String getId() {
         return id;
