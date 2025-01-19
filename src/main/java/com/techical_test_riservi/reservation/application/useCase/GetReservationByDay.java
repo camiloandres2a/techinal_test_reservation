@@ -2,7 +2,6 @@ package com.techical_test_riservi.reservation.application.useCase;
 
 import com.techical_test_riservi.reservation.application.useCase.validators.BranchValidators;
 import com.techical_test_riservi.reservation.application.useCase.validators.DayAvailableValidators;
-import com.techical_test_riservi.reservation.application.useCase.validators.RestaurantValidations;
 import com.techical_test_riservi.reservation.domain.Reservation;
 import com.techical_test_riservi.reservation.domain.ports.RetrieveReservations;
 import org.springframework.beans.factory.annotation.Autowired;

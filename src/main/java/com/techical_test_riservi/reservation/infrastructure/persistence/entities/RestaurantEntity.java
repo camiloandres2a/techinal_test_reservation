@@ -1,12 +1,9 @@
 package com.techical_test_riservi.reservation.infrastructure.persistence.entities;
 
-import com.techical_test_riservi.reservation.domain.Restaurant;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "restaurant")

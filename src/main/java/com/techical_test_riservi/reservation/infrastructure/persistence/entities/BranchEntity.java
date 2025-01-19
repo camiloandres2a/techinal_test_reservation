@@ -1,9 +1,13 @@
 package com.techical_test_riservi.reservation.infrastructure.persistence.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 @Entity
 @Table(name = "branch")
+@Builder
+@AllArgsConstructor
 public class BranchEntity {
 
     @Id
