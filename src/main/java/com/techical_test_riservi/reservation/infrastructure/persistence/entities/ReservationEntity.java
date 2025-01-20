@@ -144,7 +144,7 @@ public class ReservationEntity {
     public Reservation toEntity(){
         return Reservation.builder()
                 .id(UUID.fromString(this.id))
-                .date(DayOfWeek.valueOf(this.dateTaken))
+                .date(DayOfWeek.valueOf(this.dateTaken.toUpperCase()))
                 .client(Client.builder()
                         .id(UUID.fromString(this.clientId))
                         .build()
@@ -164,7 +164,7 @@ public class ReservationEntity {
     public Reservation toEntityUpdate(){
         return Reservation.builder()
                 .id(UUID.fromString(this.id))
-                .date(DayOfWeek.valueOf(this.dateTaken))
+                .date(DayOfWeek.valueOf(this.dateTaken.toUpperCase()))
                 .client(Client.builder()
                         .id(UUID.fromString(this.clientId))
                         .build())
