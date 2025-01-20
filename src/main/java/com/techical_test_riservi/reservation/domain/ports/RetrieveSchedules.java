@@ -8,7 +8,5 @@ import java.util.UUID;
 
 public interface RetrieveSchedules {
     Boolean isADayAvailable(UUID idBranch, DayOfWeek date);
-    Boolean isHourAvailable(UUID idRestaurant, UUID idBranch, LocalTime hour);
     Schedule getRangeHour(UUID idBranch, DayOfWeek day);
-    LocalTime getEndHour(UUID idBranch, DayOfWeek day);
 }

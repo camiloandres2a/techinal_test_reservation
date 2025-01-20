@@ -2,6 +2,8 @@ package com.techical_test_riservi.reservation.infrastructure.persistence.entitie
 
 import com.techical_test_riservi.reservation.domain.Schedule;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -9,6 +11,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "schedule")
+@Builder
+@AllArgsConstructor
 public class ScheduleEntity {
 
     @Id
@@ -28,6 +32,10 @@ public class ScheduleEntity {
 
     @Column(name = "end_hour")
     private LocalTime endHour;
+
+    public ScheduleEntity() {
+
+    }
 
     public String getId() {
         return id;
